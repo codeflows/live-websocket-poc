@@ -13,6 +13,8 @@ class SimpleEcho(WebSocket):
    def handleClose(self):
       pass
 
+import time
+
 class LivePlaylist(ControlSurface):
     def __init__(self, c_instance):
         ControlSurface.__init__(self, c_instance)
@@ -24,9 +26,18 @@ class LivePlaylist(ControlSurface):
             import platform
             self.log_message(platform.python_version())
 
-            server = SimpleWebSocketServer("", 55455, SimpleEcho)
-            server.serveforever()
+            self.server = SimpleWebSocketServer("", 55455, SimpleEcho)
 
     def __cue_points_changed(self):
         for cp in self.song().cue_points:
             self.log_message('Cue points? %s %s' % (cp.name, cp.time))
+
+    def update_display(self):
+        self.log_message('Update display!')
+
+        time1 = time.time()
+        self.server.serve_one()
+        time2 = time.time()
+        self.log_message('One loop took %0.3f ms' % ((time2-time1)*1000.0))
+
+        ControlSurface.update_display(self)
