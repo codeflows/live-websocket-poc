@@ -10,6 +10,8 @@ class LivePlaylist(ControlSurface):
             self.log_message('LivePlaylist starting up')
             self.song().add_cue_points_listener(self.__cue_points_changed)
             self.__cue_points_changed()
+            import platform
+            self.log_message(platform.python_version())
 
     def __cue_points_changed(self):
         for cp in self.song().cue_points:
