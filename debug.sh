@@ -1,1 +1,1 @@
-tail -f ~/Library/Preferences/Ableton/Live\ 9.5/Log.txt
+tail -f ~/Library/Preferences/Ableton/Live\ 9.5.1b2/Log.txt

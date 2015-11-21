@@ -1,5 +1,5 @@
 echo "Quitting Live..."
-osascript -e 'quit app "Live"'
+osascript -e 'quit app "Ableton Live 9.5 Beta"'
 
 sleep 1
 
