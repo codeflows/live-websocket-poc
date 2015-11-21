@@ -23,7 +23,7 @@ sleep 1
 echo "Installing LivePlaylist to Ableton remote scripts folder..."
 TARGET="/Applications/$APP.app/Contents/App-Resources/MIDI Remote Scripts/LivePlaylist"
 mkdir -p "$TARGET"
-rsync -avh src/ "$TARGET" --delete
+rsync -avh src/ "$TARGET"
 
 echo "Restarting Live with sample project..."
 open -a "/Applications/$APP.app" "test_projects/Locators Project/Locators.als"
