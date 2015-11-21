@@ -10,18 +10,18 @@ from _Framework.ControlSurface import ControlSurface
 from Logger import Log
 from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer
 
+queue = []
+
 class SimpleEcho(WebSocket):
     def handleMessage(self):
-        Log.log("Websocket echoing back %s" % self.data)
         self.sendMessage(self.data)
+        queue.append(self.data)
 
     def handleConnected(self):
         pass
 
     def handleClose(self):
         pass
-
-import time
 
 class LivePlaylist(ControlSurface):
     def __init__(self, c_instance):
@@ -33,10 +33,19 @@ class LivePlaylist(ControlSurface):
             self.server = SimpleWebSocketServer("", 55455, SimpleEcho)
 
     def update_display(self):
-        Log.log('START')
-        time1 = time.time()
         self.server.serve_one()
-        time2 = time.time()
-        Log.log('DONE in %0.3f ms' % ((time2-time1)*1000.0))
+
+        while len(queue) > 0:
+            command = queue.pop(0)
+            Log.log("Execute %s" % command)
+            if command == "play":
+                self.get_song().start_playing()
+            elif command == "stop":
+                self.get_song().stop_playing()
+            else:
+                Log.log("Unknown command!")
 
         ControlSurface.update_display(self)
+
+    def get_song(self):
+        return Live.Application.get_application().get_document()

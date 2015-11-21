@@ -1,11 +1,5 @@
 <script>
 const ws = new WebSocket('ws://localhost:55455');
-ws.onopen = function(event) {
-  setInterval(function() {
-    ws.send("Hi, Live! at " + new Date());
-  }, 1000);
-};
-ws.onmessage = function(event) {
-  console.log("Echo back from Live:", event.data);
-}
 </script>
+<input type="button" value="Play" onclick="ws.send('play')"/>
+<input type="button" value="Stop" onclick="ws.send('stop')"/>
