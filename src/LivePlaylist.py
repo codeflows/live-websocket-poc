@@ -1,6 +1,17 @@
 from __future__ import with_statement
 import Live
 from _Framework.ControlSurface import ControlSurface
+from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer
+
+class SimpleEcho(WebSocket):
+   def handleMessage(self):
+      self.sendMessage(self.data)
+
+   def handleConnected(self):
+      pass
+
+   def handleClose(self):
+      pass
 
 class LivePlaylist(ControlSurface):
     def __init__(self, c_instance):
@@ -12,6 +23,9 @@ class LivePlaylist(ControlSurface):
             self.__cue_points_changed()
             import platform
             self.log_message(platform.python_version())
+
+            server = SimpleWebSocketServer("", 55455, SimpleEcho)
+            server.serveforever()
 
     def __cue_points_changed(self):
         for cp in self.song().cue_points:
