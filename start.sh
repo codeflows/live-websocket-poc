@@ -29,5 +29,6 @@ cp src/*.py "$TARGET"
 echo "Restarting Live with sample project..."
 open -a "/Applications/$APP.app" "test_projects/Locators Project/Locators.als"
 
-read -p "Press enter to tail Ableton log..."
-tail -f "$HOME/Library/Preferences/Ableton/$LOG_PATH/Log.txt"
+LOG_FILE="$HOME/Library/Preferences/Ableton/$LOG_PATH/Log.txt"
+read -p "Press enter to tail Ableton log file at $LOG_FILE ..."
+tail -f "$LOG_FILE"
