@@ -2,16 +2,8 @@
 
 set -e
 
-ABLETON_VERSION=$1
-
-if [ "$ABLETON_VERSION" = "beta" ]
-then
-  APP="Ableton Live 9.5 Beta"
-  LOG_PATH="Live 9.5.1b2"
-else
-  APP="Ableton Live 9 Suite"
-  LOG_PATH="Live 9.5"
-fi
+APP="Ableton Live 9.5 Beta"
+LOG_PATH="Live 9.5.1b2"
 
 echo "Running LivePlaylist with $APP"
 

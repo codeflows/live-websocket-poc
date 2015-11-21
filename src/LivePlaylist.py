@@ -7,22 +7,12 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "lib"))
 import Live
 from _Framework.ControlSurface import ControlSurface
 
+from Logger import Log
 from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer
-
-class Log():
-    _loggermethod = None
-
-    @staticmethod
-    def set_logger(logger):
-        Log._loggermethod = logger
-
-    @staticmethod
-    def log(msg):
-        Log._loggermethod(str(msg))
 
 class SimpleEcho(WebSocket):
     def handleMessage(self):
-        Log.log("Websocket echoing back %" % self.data)
+        Log.log("Websocket echoing back %s" % self.data)
         self.sendMessage(self.data)
 
     def handleConnected(self):
