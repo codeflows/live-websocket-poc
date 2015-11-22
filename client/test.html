@@ -1,5 +1,14 @@
 <script>
 const ws = new WebSocket('ws://localhost:55455');
+ws.onmessage = function(msg) {
+  console.log(msg.data)
+  document.getElementsByTagName('textarea')[0].value += msg.data + "\n"
+}
 </script>
-<input type="button" value="Play" onclick="ws.send('play')"/>
-<input type="button" value="Stop" onclick="ws.send('stop')"/>
+<input type="button" value="List cue points" onclick="ws.send('list_cue_points')"/>
+
+<div>
+Incoming:
+<br/>
+<textarea rows="100"></textarea>
+</div>

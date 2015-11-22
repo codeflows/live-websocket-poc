@@ -14,8 +14,7 @@ queue = []
 
 class SimpleEcho(WebSocket):
     def handleMessage(self):
-        self.sendMessage(self.data)
-        queue.append(self.data)
+        queue.append((self, self.data))
 
     def handleConnected(self):
         pass
@@ -41,12 +40,12 @@ class LivePlaylist(ControlSurface):
         self.server.serve_one()
 
         while len(queue) > 0:
-            command = queue.pop(0)
+            item = queue.pop(0)
+            socket = item[0]
+            command = item[1]
             Log.log("Execute %s" % command)
-            if command == "play":
-                self.get_song().start_playing()
-            elif command == "stop":
-                self.get_song().stop_playing()
+            if command == "list_cue_points":
+                socket.sendMessage(u"Have %d cue points" % len(self.get_song().cue_points))
             else:
                 Log.log("Unknown command!")
 
