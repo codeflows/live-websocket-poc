@@ -32,6 +32,11 @@ class LivePlaylist(ControlSurface):
             Log.log('LivePlaylist starting up')
             self.server = SimpleWebSocketServer("", 55455, SimpleEcho)
 
+    def disconnect(self):
+        Log.log('LivePlaylist shutting down')
+        self.server.close()
+        ControlSurface.disconnect(self)
+
     def update_display(self):
         self.server.serve_one()
 
