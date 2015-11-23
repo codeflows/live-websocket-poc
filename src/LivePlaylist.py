@@ -4,6 +4,8 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), "lib"))
 
+import json
+
 import Live
 from _Framework.ControlSurface import ControlSurface
 
@@ -45,7 +47,9 @@ class LivePlaylist(ControlSurface):
             command = item[1]
             Log.log("Execute %s" % command)
             if command == "list_cue_points":
-                socket.sendMessage(u"Have %d cue points" % len(self.get_song().cue_points))
+                names = map(lambda cue: cue.name, self.get_song().cue_points)
+                output = json.dumps(names, encoding='utf-8', ensure_ascii=False)
+                socket.sendMessage(output)
             else:
                 Log.log("Unknown command!")
 
