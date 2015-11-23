@@ -55,8 +55,9 @@ class LivePlaylist(ControlSurface):
             command = item[1]
             Log.log("Execute %s" % command)
             if command == "list_cue_points":
-                names = map(lambda cue: { u'name': cue.name }, self.get_song().cue_points)
-                socket.sendMessage(to_json(names))
+                names = map(lambda cue: { u'name': cue.name, u'time': cue.time }, self.get_song().cue_points)
+                result = sorted(names, key=lambda cue: cue['time'])
+                socket.sendMessage(to_json(result))
             else:
                 Log.log("Unknown command!")
 
