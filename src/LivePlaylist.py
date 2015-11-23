@@ -12,6 +12,14 @@ from _Framework.ControlSurface import ControlSurface
 from Logger import Log
 from SimpleWebSocketServer import WebSocket, SimpleWebSocketServer
 
+# Annoying: json.dumps may return either str or unicode depending on input
+# (e.g. for empty list, it returns str) and SimpleWebSocketServer expects unicode
+# when sending string responses. Therefore wrapping everything in a non-empty
+# unicode response here.
+def to_json(data):
+    wrapped = { u'response': data }
+    return json.dumps(wrapped, encoding='utf-8', ensure_ascii=False)
+
 queue = []
 
 class SimpleEcho(WebSocket):
@@ -47,9 +55,8 @@ class LivePlaylist(ControlSurface):
             command = item[1]
             Log.log("Execute %s" % command)
             if command == "list_cue_points":
-                names = map(lambda cue: cue.name, self.get_song().cue_points)
-                output = json.dumps(names, encoding='utf-8', ensure_ascii=False)
-                socket.sendMessage(output)
+                names = map(lambda cue: { u'name': cue.name }, self.get_song().cue_points)
+                socket.sendMessage(to_json(names))
             else:
                 Log.log("Unknown command!")
 
