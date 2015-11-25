@@ -68,6 +68,8 @@ class LivePlaylist(ControlSurface):
                 cue_point_json = message['data']
                 cue_point = next(x for x in self.get_song().cue_points if x.name == cue_point_json['name'] and x.time == cue_point_json['time'])
                 cue_point.jump()
+                if not(self.get_song().is_playing):
+                    self.get_song().start_playing()
             else:
                 Log.log("Unknown command!")
 
