@@ -52,12 +52,18 @@ class LivePlaylist(ControlSurface):
         while len(queue) > 0:
             item = queue.pop(0)
             socket = item[0]
-            command = item[1]
-            Log.log("Execute %s" % command)
+            message = json.loads(item[1])
+            Log.log("Execute %s" % message)
+            command = message['command']
+
             if command == "list_cue_points":
                 names = map(lambda cue: { u'name': cue.name, u'time': cue.time }, self.get_song().cue_points)
                 result = sorted(names, key=lambda cue: cue['time'])
                 socket.sendMessage(to_json(result))
+            elif command == "play_cue_point":
+                cue_point_json = message['data']
+                cue_point = next(x for x in self.get_song().cue_points if x.name == cue_point_json['name'] and x.time == cue_point_json['time'])
+                cue_point.jump()
             else:
                 Log.log("Unknown command!")
 
