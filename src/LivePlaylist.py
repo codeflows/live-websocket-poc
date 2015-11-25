@@ -40,6 +40,10 @@ class LivePlaylist(ControlSurface):
             Log.set_logger(self.log_message)
             Log.log('LivePlaylist starting up')
             self.server = SimpleWebSocketServer("", 55455, SimpleEcho)
+            self.get_song().add_current_song_time_listener(self._time_changed)
+
+    def _time_changed(self):
+        Log.log("Playing at %s" % self.get_song().current_song_time)
 
     def disconnect(self):
         Log.log('LivePlaylist shutting down')
