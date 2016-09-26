@@ -6,7 +6,11 @@ The WebSocket interface accepts two types of messages: one for listing cue point
 
 Works with Live 9.5.1 beta 2, which includes Python 2.7 support
 
-# Inspiration
+## Disclaimer
+
+This project has no affiliation with Ableton.
+
+## Inspiration
 
 - https://github.com/dpallot/simple-websocket-server
 - https://github.com/Mystfit/Showtime-Live
